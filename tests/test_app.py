@@ -1,6 +1,7 @@
 import pytest
 from src.app import app
 
+
 @pytest.fixture
 def client():
     app.config["TESTING"] = True
@@ -42,3 +43,4 @@ def test_add_positive(client):
     response = client.get("/add/1/1")
     assert response.status_code == 200
     assert response.get_json()["result"] == 2
+    
