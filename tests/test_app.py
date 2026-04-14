@@ -43,4 +43,3 @@ def test_add_positive(client):
     response = client.get("/add/1/1")
     assert response.status_code == 200
     assert response.get_json()["result"] == 2
-    
