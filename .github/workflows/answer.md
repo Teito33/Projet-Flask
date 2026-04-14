@@ -69,3 +69,14 @@ inconvénients, et dans quel cas utiliser chacun.
         Cas d'usage : Entreprise avec repos private importants, accès aux ressources de l'entreprise nécessaire, Sécurité scricte.
         
 
+Question 9 (compte-rendu) : Décrivez le workflow complet qu'un développeur doit suivre pour
+intégrer du code quand la branche main est protégée.
+
+    - Créer une branche depuis main
+    - Développer et tester localement avant de pousser
+    - Commit et push
+    - Créer une PR
+    - Attendre les test de la CI
+    - Mettre à jour la branche local
+
+    
