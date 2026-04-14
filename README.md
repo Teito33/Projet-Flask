@@ -1,0 +1,1 @@
+![CI](https://github.com/Teito33/Projet-Flask/actions/workflows/ci.yml/badge.svg)
