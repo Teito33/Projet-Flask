@@ -110,3 +110,37 @@ CI formater le code directement ?
 
     Permet de garder le contrôle des changements, et d'avoir une traçabilité, qu'il n'y aurait pas si le code était formaté directement.
     Permet d'être conscient de tous les changements, ce qui ne serait pas le cas si c'était automatique.
+
+Question 3 (compte-rendu) : Quels avantages a Ruff par rapport à flake8 ? Pourquoi le fichier
+pyproject.toml est-il préférable à des arguments en ligne de commande ?
+
+    Ruff est plus rapide que Flake8, possède plus de règles, donc plus précis.
+    Flake8 ne possède pas de correction automatique par rapport à Ruff qui l'a.
+    Le fichier pyprojet.toml permet de centraliser les configurations en un seul fichier, plutôt que d'utiliser des arguments en ligne de commande.
+    Facile à maintenir et à versionner
+
+
+Question 4 (compte-rendu) : Quelle est la différence entre Bandit et Semgrep ? Dans quel cas
+utiliseriez-vous l'un ou l'autre ?
+
+    Bandit s'occupe uniquement de la sécurité, alors que Semgrep s'occupe de la sécurité ainsi que la qualité du code.
+    Il vaut mieux prioriser Semgrep pour des projets multi-langage, Bandit étant 100% Python.
+
+
+Question 5 (compte-rendu) : Qu'est-ce que l'analyse statique ? En quoi diffère-t-elle des tests unitaires ?
+
+    L'analyse statique permet d'examiner le code sans l'éxecuter, alors que les tests unitaires exécutent le code, et vérifient que le comportement est correct.
+
+Question 6 (compte-rendu) : Quel est l'intérêt des pre-commit hooks par rapport à la CI ?
+Pourquoi utiliser les deux ?
+
+    Les pre-commit hooks permettent de tester localement avant chaque commit.
+    Ils empêchent les erreurs d'être commit et améliore la qualité du code.
+    Le pre-commit détecte les erreurs évidentes, alors que la CI fais une vérification complète et standardisée.
+
+
+Question 7 (compte-rendu) : Un collègue fait un git commit --no-verify pour contourner les
+pre-commit hooks. Est-ce un problème ? Pourquoi ?
+
+    Oui, sauf urgence, il n'est pas conseillé de contourner les pre-commit.
+    Le contournement peut faire échoué le commit, et perdre plus de temps que celui gagné en contournant.
