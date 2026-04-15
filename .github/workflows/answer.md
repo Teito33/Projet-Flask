@@ -20,7 +20,7 @@ Question 3 (compte-rendu) : Pourquoi est-il important de tester localement avant
     - Economie de ressources (Test local = gratuit, test CI = peut coûter en temps serveur)
     - Plus fluide, peut-être corriger directement si test local, sans avoir à attendre le résultat de la CI
 
-    Si le test échoue dans la CI : 
+    Si le test échoue dans la CI :
         Workflow s'arrête
         Build marqué comme échoué
         Notification d'échec (mail ou autre)
@@ -59,16 +59,16 @@ passe-t-il quand requirements.txt change ?
 Question 8 (compte-rendu) : Comparez les runners GitHub-hosted et self-hosted : avantages,
 inconvénients, et dans quel cas utiliser chacun.
 
-    GitHub-Hosted : 
+    GitHub-Hosted :
         Avantages : Prêt à l'emploi, aucune configuration. Toujours à jour
         Inconvénients : Coûteux pour les private repos, pas de contrôle sur l'infrastructure, démarrage plus lent
         Cas d'usage : Projets open-source, petites équipes, Workflows standards
 
-    Self-hosted : 
+    Self-hosted :
         Avantages : Pas de coûts supplémentaires, accès aux ressources internes, démarrage instantané
         Inconvénients : Configuration et maintenance manuelle requise, sécurité à notre charge, mise à jour à gérer
         Cas d'usage : Entreprise avec repos private importants, accès aux ressources de l'entreprise nécessaire, Sécurité scricte.
-        
+
 
 Question 9 (compte-rendu) : Décrivez le workflow complet qu'un développeur doit suivre pour
 intégrer du code quand la branche main est protégée.
@@ -80,7 +80,7 @@ intégrer du code quand la branche main est protégée.
     - Attendre les test de la CI
     - Mettre à jour la branche local
 
-TP3 
+TP3
 Question 1 (compte-rendu) : Quelle est la différence entre un linter et un formatter ? Donnez
 un exemple de chaque en Python.
 
@@ -93,7 +93,7 @@ un exemple de chaque en Python.
         src/app.py:28:1: W293 blank line contains whitespace
         src/app.py:28:5: W292 no newline at end of file
 
-    Exemple Formatter : 
+    Exemple Formatter :
         # Avant (désorganisé)
         def my_function(x,y):
         z=x+y
@@ -110,5 +110,3 @@ CI formater le code directement ?
 
     Permet de garder le contrôle des changements, et d'avoir une traçabilité, qu'il n'y aurait pas si le code était formaté directement.
     Permet d'être conscient de tous les changements, ce qui ne serait pas le cas si c'était automatique.
-
-    
