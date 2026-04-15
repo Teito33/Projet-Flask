@@ -1,3 +1,4 @@
+TP2
 Question 1 (compte-rendu) : Décrivez la structure du fichier ci.yml : que signifient on, jobs, runs-on, steps et uses ?
 
     On : Trigger. Définit quand le workflow s'éxecute
@@ -79,4 +80,33 @@ intégrer du code quand la branche main est protégée.
     - Attendre les test de la CI
     - Mettre à jour la branche local
 
-    
+TP3 
+Question 1 (compte-rendu) : Quelle est la différence entre un linter et un formatter ? Donnez
+un exemple de chaque en Python.
+
+    Linter : Détecte les erreurs de style et de conventions, mais ne corrige pas les problèmes.
+
+    Formatter : Corrige automatiquement le formatage du code
+
+    Exemple Linter :
+        Run flake8 src/ tests/ --max-line-length=120
+        src/app.py:28:1: W293 blank line contains whitespace
+        src/app.py:28:5: W292 no newline at end of file
+
+    Exemple Formatter : 
+        # Avant (désorganisé)
+        def my_function(x,y):
+        z=x+y
+        return z
+
+        # Après black --format (corrigé automatiquement)
+        def my_function(x, y):
+        z = x + y
+        return z
+
+
+Question 2 (compte-rendu) : Pourquoi utilise-t-on --check dans la CI plutôt que de laisser la
+CI formater le code directement ?
+
+    Permet de garder le contrôle des changements, et d'avoir une traçabilité, qu'il n'y aurait pas si le code était formaté directement.
+    Permet d'être conscient de tous les changements, ce qui ne serait pas le cas si c'était automatique.

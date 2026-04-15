@@ -5,4 +5,3 @@ black
 ruff
 bandit
 semgrep
-flake8
