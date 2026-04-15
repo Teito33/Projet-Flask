@@ -144,3 +144,24 @@ pre-commit hooks. Est-ce un problème ? Pourquoi ?
 
     Oui, sauf urgence, il n'est pas conseillé de contourner les pre-commit.
     Le contournement peut faire échoué le commit, et perdre plus de temps que celui gagné en contournant.
+
+
+Question 8 (compte-rendu) : Qu'est-ce qu'un Quality Gate ? Donnez 3 exemples de conditions
+qu'on pourrait y mettre.
+
+    Un Quality gate est un ensemble de critères qui doivent être satisfaits pour pouvoir merge le code.
+    3 exemples : Tous les tests doivent passer / Couverture de code > 70% / Pas de vulnérabilité de sécurité critique.
+
+
+Question 9 (compte-rendu) : Décrivez l'ordre des vérifications dans votre pipeline final et
+expliquez pourquoi cet ordre est important.
+
+    Checkout code
+    Setup Python + Cache Pip
+    Dépendances
+    Vérification du formatage
+    Linting
+    Bandit
+    Semgrep
+    Tests unitaires + couverture
+    Sauvegarder rapport
