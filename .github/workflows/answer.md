@@ -110,3 +110,5 @@ CI formater le code directement ?
 
     Permet de garder le contrôle des changements, et d'avoir une traçabilité, qu'il n'y aurait pas si le code était formaté directement.
     Permet d'être conscient de tous les changements, ce qui ne serait pas le cas si c'était automatique.
+
+    
