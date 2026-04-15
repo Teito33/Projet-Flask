@@ -165,3 +165,19 @@ expliquez pourquoi cet ordre est important.
     Semgrep
     Tests unitaires + couverture
     Sauvegarder rapport
+
+
+Question 10 (compte-rendu) : Décrivez ce que vous voyez sur le tableau de bord SonarCloud
+de votre projet. Quel est le résultat du Quality Gate ? Quels problèmes ont été détectés ?
+
+    Quaity gate status : Failed
+    0.0% Security Hotspots Reviewed
+    ≥ 100% required
+
+Question 11 (compte-rendu) : Comparez SonarCloud avec les outils locaux (Bandit, Semgrep,
+Ruff). Quels sont les avantages d'un outil centralisé comme SonarCloud en entreprise ?
+
+    Avantages :
+     Centralisation des projets de l'entreprise
+     Traçabilité long terme
+     Quality Gates standardisés
