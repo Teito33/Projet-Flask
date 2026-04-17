@@ -244,3 +244,48 @@ Question 6 (compte-rendu) : Pourquoi GitLeaks est-il placé au tout début du pi
 même le linting ?
 
     La sécurité est prioritaire. Il faut arrêter immédiatement si un secret est détecté. Inutile de linter/tester si la sécurité est compromise. Ça évite aussi de gaspiller des ressources et d'exposer les données sensibles dans les logs.
+
+Question 7 (compte-rendu) : Citez 3 risques de l'OWASP Top 10 et expliquez comment votre
+pipeline CI les adresse (ou pas).
+
+    3 risques de l'OWASP Top 10 :
+        1. A02 : Cryptographic Failures ✅
+        Adressé : Bandit (secrets) + GitLeaks (clés exposées)
+        Manque : Pas de vérification HTTPS/TLS
+
+    La pipeline couvre bien les injections et secrets, mais ignore complètement les contrôles d'accès.
+
+Question 8 (compte-rendu) : Décrivez l'ordre complet de votre pipeline final. Pour chaque
+étape, indiquez quel type de problème elle détecte.
+
+    1. GitLeaks → Détecte les secrets exposés (clés API, tokens, mots de passe)
+    2. Installer Python → Prépare l'environnement d'exécution
+    3. Cache pip → Optimise les performances (réutilise les cache)
+    4. Installer dépendances → Installe les requêtes Python
+    5. Black (--check) → Détecte les erreurs de formatage du code
+    6. Ruff (linter) → Détecte les violations de style, imports non utilisés, bugs courants
+    7. pip-audit → Détecte les vulnérabilités connues dans les dépendances
+    8. Bandit → Détecte les problèmes de sécurité Python (injection, cryptographie faible)
+    9. Semgrep → Détecte les patterns de sécurité et qualité du code (multi-langage)
+    10. Tests pytest + couverture → Vérifie que le code fonctionne correctement et calcule le taux de couverture
+    11. SonarCloud Scan → Analyse complète centralisée (qualité, duplications, hotspots sécurité)
+    12. Sauvegarder rapport → Archive les résultats de couverture
+
+Question 9 (compte-rendu) : Comparez les approches Shift Left et audit de sécurité traditionnel. Quels sont les avantages du Shift Left ?
+
+    Approche traditionnel : Test en fin de cycle, problèmes coûteux à corriger.
+
+    Shift Left : Test dès le développement.
+
+    Avantages : Coûts réduits, feedback continu, meilleure sécurité, automatisé (GitLeaks, Bandit, pre-commit dès le commit).
+
+Question 10 (compte-rendu) : Votre pipeline contient maintenant de nombreuses étapes. Si le
+temps d'exécution devenait trop long, comment pourriez-vous l'optimiser ?
+
+    Paralléliser les jobs
+    Cache aggressif
+    Aborter tôt
+    Réduire outils redondants
+    Conditions (SonarCloud sur main/PR seulement)
+    Runners optimisés
+    Matrix jobs
