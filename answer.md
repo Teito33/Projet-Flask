@@ -238,3 +238,9 @@ dans le code, puis l'a supprimée dans un commit suivant. Le secret est-il en s�
     Regénérer une nouvelle clé
     Ajouter le fichier à .gitignore
     Force push après nettoyage
+
+
+Question 6 (compte-rendu) : Pourquoi GitLeaks est-il placé au tout début du pipeline, avant
+même le linting ?
+
+    La sécurité est prioritaire. Il faut arrêter immédiatement si un secret est détecté. Inutile de linter/tester si la sécurité est compromise. Ça évite aussi de gaspiller des ressources et d'exposer les données sensibles dans les logs.
