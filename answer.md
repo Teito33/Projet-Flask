@@ -220,3 +220,21 @@ avec pip-audit ? Pourquoi configure-t-on aussi l'écosystème github-actions ?
 
     Écosystème github-actions : Les actions du workflow (checkout, setup-python, etc.) sont aussi des dépendances vulnerables. Dependabot les scan et les update automatiquement pour éviter les compromissions supply-chain.
 
+Question 4 (compte-rendu) : Pourquoi ne doit-on jamais mettre un secret directement dans le
+code source ? Citez 3 endroits où stocker des secrets de manière sécurisée.
+
+    Si le code est versionné en git, les secrets sont exposés à tous, y compris les anciens commits.
+    3 endroits où les stockers :
+        Variables d'environnements
+        GitHub Secrets
+        Gestionnaires de secrets
+
+
+Question 5 (compte-rendu) : Un développeur a accidentellement commité une clé API GCP
+dans le code, puis l'a supprimée dans un commit suivant. Le secret est-il en sécurité ? Que faut-il faire ?
+
+    Révoquer immédiatement la clé GCP
+    Nettoyer l'historique git (git filter-branch ou BFG Repo-Cleaner)
+    Regénérer une nouvelle clé
+    Ajouter le fichier à .gitignore
+    Force push après nettoyage
