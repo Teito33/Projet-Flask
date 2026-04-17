@@ -289,3 +289,19 @@ temps d'exécution devenait trop long, comment pourriez-vous l'optimiser ?
     Conditions (SonarCloud sur main/PR seulement)
     Runners optimisés
     Matrix jobs
+
+Question 11 (compte-rendu) : Décrivez la CVE que vous avez trouvée : son identifiant, le
+package affecté, le score CVSS, l'impact, et la version corrigée. Expliquez comment pip-audit
+ou Dependabot aurait pu prévenir ce problème. Indiquez le lien vers la page de la CVE.
+
+    changedetection.io Authentication Bypass
+        Identifiant : CVE-2026-35490
+        Package affecté : changedetection.io (pip)
+        Sévérité : Critical
+        Type : Authentication Bypass via Decorator Ordering
+        Publié : 2 weeks ago
+        Impact : Accès non authentifié aux endpoints protégés via improper decorator ordering
+        Lien : https://github.com/advisories/CVE-2026-35490
+
+    pip-audit -r requirements.txt → détecterait changedetection.io vulnérable
+    Dependabot → bloquerait le merge jusqu'à mise à jour vers version corrigée
