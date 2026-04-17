@@ -181,3 +181,42 @@ Ruff). Quels sont les avantages d'un outil centralisé comme SonarCloud en entre
      Centralisation des projets de l'entreprise
      Traçabilité long terme
      Quality Gates standardisés
+
+
+TP4
+
+Question 1 (compte-rendu) : Qu'est-ce qu'une CVE ? Expliquez le score CVSS et donnez un
+exemple de CVE avec son impact.
+
+    CVE (Common Vulnerabilities and Exposures) : Un identifiant standard pour les vulnérabilités de sécurité découvertes dans des logiciels publiquement connus.
+
+    Le CVSS prend en compte :
+        Vecteur d'attaque : réseau, local, physique
+        Complexité : facilité à exploiter
+        Privilèges requis : non, bas, élevés
+        Impact : confidentialité, intégrité, disponibilité
+
+        CVE-2021-44228 - "Log4Shell"
+
+        Vulnérabilité dans Apache Log4j 2
+            Score CVSS : 10.0 (Critique)
+            Impact : Exécution de code à distance, compromission totale du système
+            Les attaquants pouvaient injecter du code malveillant via les logs
+            Affecté : millions de serveurs Java mondialement
+            Correction : mise à jour urgente de Log4j vers la version 2.17.0+
+
+
+Question 2 (compte-rendu) : Pourquoi est-il important de scanner les dépendances et pas
+seulement votre propre code ?
+
+    Les vulnérabilités critiques viennent souvent des dépendances, pas du code.
+    On ne contrôle pas la sécurité du packagage tier.
+
+
+Question 3 (compte-rendu) : Quel est l'avantage de Dependabot par rapport à un scan manuel
+avec pip-audit ? Pourquoi configure-t-on aussi l'écosystème github-actions ?
+
+    Dépendabot : Automatisé, continu, crée des PRs de patch automatiquement. pip-audit : Manual, one-shot, tu dois l'exécuter régulièrement.
+
+    Écosystème github-actions : Les actions du workflow (checkout, setup-python, etc.) sont aussi des dépendances vulnerables. Dependabot les scan et les update automatiquement pour éviter les compromissions supply-chain.
+
