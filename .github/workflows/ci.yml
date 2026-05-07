@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  security-and-quality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
