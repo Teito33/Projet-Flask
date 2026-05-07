@@ -1,6 +1,17 @@
+import os
+
 from flask import Flask, jsonify
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-key-insecure")
+
+
+@app.after_request
+def set_security_headers(response):
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    return response
 
 
 @app.route("/")
@@ -29,4 +40,4 @@ def about():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

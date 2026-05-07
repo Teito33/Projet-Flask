@@ -1,4 +1,5 @@
 import pytest
+
 from src.app import app
 
 
@@ -43,3 +44,9 @@ def test_add_positive(client):
     response = client.get("/add/1/1")
     assert response.status_code == 200
     assert response.get_json()["result"] == 2
+
+
+def test_about(client):
+    response = client.get("/about")
+    assert response.status_code == 200
+    assert response.get_json()["version"] == "1.0"
