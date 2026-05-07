@@ -305,3 +305,207 @@ ou Dependabot aurait pu prévenir ce problème. Indiquez le lien vers la page de
 
     pip-audit -r requirements.txt → détecterait changedetection.io vulnérable
     Dependabot → bloquerait le merge jusqu'à mise à jour vers version corrigée
+
+
+
+TP5
+
+Question 1 (compte-rendu) : Expliquez chaque instruction du Dockerfile. Pourquoi copie-t-on
+requirements.txt avant le code source ?
+
+    Explication du Dockerfile :
+
+    FROM python:3.12-slim
+        Image de base Python
+
+    WORKDIR /app
+        Définit le répertoire de travail
+
+    COPY requirements.txt .
+        Copie les dépendances
+
+    RUN pip install --no-cache-dir -r requirements.txt
+        Installe les dépendances
+
+    COPY src/ ./src/
+        Copie le code source
+
+    HEALTHCHECK --interval=30s --timeout=5s --retries=3 \ CMD curl -f http://localhost:5000/health || exit 1
+        Vérifie la santé du conteneur
+
+    EXPOSE 5000
+        Expose le port 5000
+
+    CMD ["gunicorn", "--bind", "0.0.0.0:5000", "src.app:app"]
+    Lance gunicorn au démarrage
+
+    Pourquoi copier requirements.txt en premier ?
+
+       La réponse est dans le dockerfile : # Dependances d'abord (cache Docker)
+
+
+Question 2 (compte-rendu) : Quelle est la différence entre une VM et un container Docker ?
+Quel est l'avantage principal des containers ?
+
+    VM : Émule un OS complet, lourd, démarrage lent
+    Container : Utilise le kernel du host, léger, démarrage rapide
+
+    Avantage principal :
+    Beaucoup plus léger et rapide qu'une VM. Ça rend le déploiement rapide et moins gourmand en ressources
+
+
+Question 3 (compte-rendu) : Quel est l'intérêt de Docker Compose par rapport à un simple
+docker run ? Dans quel cas Docker Compose devient-il indispensable ?
+
+    docker run demande une longue commande. Docker Compose centralise tout dans un fichier. Indispensable quand il y a plusieurs services qui doivent communiquer.
+
+
+Question 4 (compte-rendu) : Pourquoi tagger une image avec plusieurs tags (SHA, version,
+latest) ? Pourquoi ne doit-on pas utiliser :latest en production ?
+    SHA (commit hash) permet de tracer exactement quel code tourne en prod. Version (v1.0) est lisible pour un humain.
+
+    Certains services en prod dépendent d'une version spécifique. Si on déploie une nouvelle version avec latest et que ça casse la compatibilité, toute la production s'arrête.
+
+
+Question 5 (compte-rendu) : Qu'est-ce qu'un registre de conteneurs ? Comparez ghcr.io,
+Docker Hub et Google Artifact Registry.
+
+    Qu'est-ce qu'un registre de conteneurs :
+
+        Un registre est un serveur centralisé où sont stockées et distribuées les images Docker. Il permet aux équipes de partager et de déployer des images.
+
+    Comparaison :
+
+        Docker Hub : Registre public par défaut de Docker. Gratuit avec des images publiques, mais les images privées ont des limitations.
+
+        ghcr.io (GitHub Container Registry) : Registre intégré à GitHub. Gratuit et lié aux dépôts GitHub, idéal pour les projets hébergés sur la plateforme.
+
+        Google Artifact Registry : Registre managé par Google Cloud. Plus robuste et sécurisé, généralement utilisé en entreprise. Nécessite un compte GCP payant.
+
+Question 6 (compte-rendu) : Pourquoi teste-t-on le conteneur dans la CI avant de le pousser
+sur le registre ?
+
+    Pour s'assurer que le conteneur fonctionne avant de le rendre public sur ghcr.io. Si l'image a un problème (le code ne démarre pas, le health check échoue, etc.), on le détecte avant le push.
+
+    Ça évite de polluer le registre avec des images cassées et ça économise du temps/ressources.
+
+Question 7 (compte-rendu) : Expliquez la condition if: github.ref == 'refs/heads/main'.
+Pourquoi le build Docker ne se déclenche-t-il pas sur les Pull Requests ?
+
+    La condition if: github.ref == 'refs/heads/main' vérifie qu'on est sur la branche main. Sur une PR, github.ref pointe vers la branche de feature, donc la condition est fausse.
+
+    Pourquoi ? Parce qu'on ne veut builder et pusher une image que si le code est déjà validé et mergé sur main. Sur une PR, le code n'est pas encore accepté. Si on buildait à chaque PR, on polluerait le registre avec plein d'images instables.
+
+    L'idée : tester sur la PR, puis une fois mergée sur main, on build l'image pour la production.
+
+Question 8 (compte-rendu) : Pourquoi utilise-t-on ${{ github.sha }} comme tag d'image ?
+Quel avantage par rapport à un numéro de version manuel ?
+
+    github.sha c'est le hash unique du commit. Chaque commit a un SHA différent, donc chaque image a un tag unique automatiquement.
+
+    Avantages :
+    - C'est automatique, pas d'erreur humaine (pas besoin de se souvenir d'incrémenter la version)
+    - Traçabilité parfaite : on sait exactement quel commit/code est en production
+    - Pas de doublon : deux commits différents = deux images différentes
+
+    Avec un numéro manuel (v1.0, v1.1, etc.), faut se souvenir d'incrémenter, et c'est facile d'oublier ou de faire une erreur.
+
+Question 9 (compte-rendu) : Qu'est-ce qu'un rollback ? Pourquoi est-il essentiel de versionner les images Docker avec des tags précis ?
+
+    Un rollback c'est revenir à une version précédente d'une application. Par exemple, si la dernière version en prod a un bug, on relance la version d'avant.
+
+    Exemple : docker run ... ghcr.io/app:sha-abc1234 (au lieu de :latest)
+
+    Pourquoi les tags précis sont essentiels :
+
+    Sans tags précis (latest), on sait pas quelle version tourne en prod. Si y a un bug, on peut pas revenir à la version d'avant.
+
+    Avec des tags SHA ou des numéros de version, on a une traçabilité totale. On sait exactement quel code tourne, et on peut revenir à n'importe quelle version précédente en cas de problème.
+
+Question 10 (compte-rendu) : Expliquez la différence entre Continuous Delivery et Continuous Deployment. Lequel avez-vous mis en place dans ce TP ?
+
+    Continuous Delivery : Code automatiquement testé, validé, et prêt pour la prod. Mais le déploiement en prod est manuel.
+
+    Continuous Deployment : Code va automatiquement jusqu'en production sans intervention manuelle.
+
+    Dans ce TP : Continuous Deployment
+
+    Preuve : dès qu'on push sur main, tout est automatique. Tests → build → push sur ghcr.io. L'image est directement disponible en prod sans étape manuelle.
+
+Question 11 (compte-rendu) : Quels risques pose le déploiement automatique ? Comment les atténuer ?
+
+    Risques du déploiement automatique :
+
+     Un bug passe en prod directement et affecte les utilisateurs
+     Pas de validation humaine, donc plus d'erreurs
+     Données corrompues/perdues si quelque chose tourne mal
+     Perte de contrôle, déploiement trop rapide
+
+    Comment les atténuer :
+
+     Tests complets (unitaires, intégration) : ils sont dans la CI
+     Review en PR : quelqu'un doit valider avant merge
+     Health checks : le conteneur s'arrête si quelque chose tourne mal
+     Monitoring en prod : alertes si ça crash
+     Rollback rapide avec les tags SHA : revenir à la version précédente en cas de bug
+     Staged rollout : déployer progressivement (10% des utilisateurs d'abord, puis 50%, etc.)
+     Feature flags : activer/désactiver les features sans redéployer
+
+Question 12 (compte-rendu) : Expliquez le principe du multi-stage build. Quel est l'avantage en termes de taille et de sécurité ? Montrez votre Dockerfile modifié et la différence de taille. Indiquez le lien vers la documentation que vous avez consultée.
+
+    Principe du multi-stage build :
+
+    Un multi-stage build utilise plusieurs FROM dans un Dockerfile. Chaque FROM est une étape. On peut copier des artefacts d'une étape à l'autre avec COPY --from=. Les étapes précédentes disparaissent de l'image finale.
+
+    Idée : séparer la compilation/installation des dépendances de l'exécution de l'app.
+
+    Avantages en taille :
+
+    Stage 1 (builder) : python:3.12 installe les dépendances
+    Stage 2 (runtime) : python:3.12-slim reçoit seulement les packages
+    L'image finale contient juste ce qu'il faut pour exécuter l'app, pas les outils de build.
+
+
+    Avantages en sécurité :
+
+    L'image finale n'a pas gcc, make, build tools, etc. Moins d'outils = moins de risques qu'un attaquant les exploite. Surface d'attaque réduite.
+
+    Dockerfile modifié :
+
+        # Stage 1 : Builder
+        FROM python:3.12-slim as builder
+
+        WORKDIR /build
+
+        COPY requirements.txt .
+
+        RUN pip install --user --no-cache-dir -r requirements.txt
+
+        # Stage 2 : Runtime (image finale)
+        FROM python:3.12-slim
+
+        WORKDIR /app
+
+        # Copie seulement les dépendances installées depuis le builder
+        COPY --from=builder /root/.local /root/.local
+
+        ENV PATH=/root/.local/bin:$PATH
+
+        COPY src/ ./src/
+
+        HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+            CMD curl -f http://localhost:5000/health || exit 1
+
+        EXPOSE 5000
+
+        CMD ["gunicorn", "--bind", "0.0.0.0:5000", "src.app:app"]
+
+    Différence de taille :
+
+    flask-app:new                                                                            3e32cc77c32b        777MB      164MB
+    flask-app:old                                                                            36db7c26b4b2       2.21GB      535MB
+
+    Documentation :
+
+    https://docs.docker.com/build/building/multi-stage/
+    https://docs.docker.com/language/python/build-images/
