@@ -1,0 +1,10 @@
+site_name: Mon Projet Flask
+theme:
+  name: material
+  palette:
+    primary: indigo
+nav:
+- Accueil: index.md
+- API: api.md
+- Architecture: architecture.md
+- Contribution: contributing.md
