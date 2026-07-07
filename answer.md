@@ -509,3 +509,23 @@ Question 12 (compte-rendu) : Expliquez le principe du multi-stage build. Quel es
 
     https://docs.docker.com/build/building/multi-stage/
     https://docs.docker.com/language/python/build-images/
+
+** TP 7**
+Question 1 (compte-rendu) : Qu'est-ce que le concept « Documentation as Code » ? Quels
+avantages ?
+
+    Documentation as Code : traiter la doc comme du code. Écrite en Markdown, versionnée dans Git, relue en PR, buildée et déployée automatiquement par la CI.
+
+    Avantages :
+
+    Versionnée (historique, diff, rollback)
+    Relue en PR comme le code
+    Reste synchro avec le code (même commit/PR)
+    Déploiement auto du site via CI
+    Pas besoin d'outil proprio, juste du texte
+
+Question 3 (compte-rendu) : Pourquoi un projet open source doit-il avoir une licence ? Que se passe-t-il sans licence ?
+
+    Sans licence, le code reste sous copyright par défaut. Personne (même pas pour un usage perso) n'a le droit légal de l'utiliser, le copier, le modifier ou le redistribuer, même si le repo est public sur GitHub.
+
+    Une licence (MIT, Apache, GPL...) définit explicitement ce que les autres ont le droit de faire avec le code.
