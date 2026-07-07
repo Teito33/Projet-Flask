@@ -529,3 +529,89 @@ Question 3 (compte-rendu) : Pourquoi un projet open source doit-il avoir une lic
     Sans licence, le code reste sous copyright par défaut. Personne (même pas pour un usage perso) n'a le droit légal de l'utiliser, le copier, le modifier ou le redistribuer, même si le repo est public sur GitHub.
 
     Une licence (MIT, Apache, GPL...) définit explicitement ce que les autres ont le droit de faire avec le code.
+
+
+Question 4 (compte-rendu) : Intérêt des templates d'issues et de PR ? Que se passe-t-il sans ?
+
+    Standardisent les infos données par les contributeurs. Chaque bug report ou feature request contient toujours les mêmes sections (repro, environnement, motivation...), donc moins d'aller-retours pour demander des précisions.
+
+    Pour les PR, la checklist rappelle les étapes à ne pas oublier (tests, conventions, doc) avant de demander une review.
+
+
+Question 5 (compte-rendu) : Avantages d'un site MkDocs par rapport à un simple README ?
+
+    Site MkDocs vs README :
+
+        Plusieurs pages au lieu d'un seul fichier trop long
+        Recherche intégrée
+        Rendu plus propre (thème Material)
+        Accessible en site web (GitHub Pages), pas juste sur le repo
+        Supporte des extensions (Mermaid, etc.)
+
+
+Question 6 (compte-rendu) : Qu'est-ce que MkDocs Material ? Citez 2 alternatives.
+
+    MkDocs Material : thème pour MkDocs, plus moderne que le thème par défaut. Recherche, mode sombre, navigation améliorée.
+
+    Alternatives : Docusaurus, Sphinx
+
+
+Question 7 (compte-rendu) : Expliquez le filtre paths du workflow. Pourquoi ne pas déployer la doc à chaque push ?
+
+    Filtre paths : le workflow ne se lance que si un push touche docs/** ou mkdocs.yml.
+
+    Pourquoi pas à chaque push :
+
+        Évite de gaspiller des ressources CI pour rien
+        Le site ne change pas si seul le code change
+        Sépare CI code et déploiement doc
+
+Question 8 (compte-rendu) : Qu'est-ce que GitHub Pages ? Citez 2 alternatives pour héberger un site statique.
+
+    GitHub Pages : hébergement gratuit de site statique fourni par GitHub, directement depuis un repo.
+
+Alternatives : Netlify, Vercel
+
+Question 9 (compte-rendu) : Votre projet est complet. Décrivez tous les éléments de
+documentation mis en place et leur rôle.
+
+    README.md : vitrine, installation, routes API, badge CI
+    CONTRIBUTING.md : conventions (commits, Black, Ruff, tests)
+    LICENSE : MIT, droits d'utilisation
+    CODE_OF_CONDUCT.md : règles de comportement communautaire
+    .github/ISSUE_TEMPLATE/ : templates bug report et feature request
+    .github/PULL_REQUEST_TEMPLATE.md : checklist pour les PR
+    Docstrings dans src/app.py : documentation des routes
+    Site MkDocs (docs/) : index, api, architecture, contributing
+    .github/workflows/docs.yml : déploiement auto du site sur GitHub Pages
+
+
+Question 10 (compte-rendu) : Montrez le code Mermaid de votre diagramme et une capture du
+rendu. Quel type de diagramme et pourquoi ? Indiquez la source.
+
+    Code Mermaid :
+
+    ```mermaid
+    flowchart LR
+        A[Push / PR] --> B[GitLeaks]
+        B --> C[Black + Ruff]
+        C --> D[pip-audit]
+        D --> E[Bandit + Semgrep]
+        E --> F[Tests pytest + couverture]
+        F --> G[SonarCloud]
+        G --> H{Branche main ?}
+        H -->|oui| I[Build image Docker]
+        I --> J[Test conteneur]
+        J --> K[Push ghcr.io]
+        H -->|non, PR| L[Fin]
+    ```
+
+    Capture du rendu :
+   ![Diagramme pipeline CI/CD](docs/Screen.png)
+
+
+    Type de diagramme : flowchart (diagramme de flux). Choisi car le pipeline est une
+    séquence d'étapes linéaires avec une bifurcation conditionnelle (main vs PR),
+    ce qui se représente naturellement par des boîtes et des flèches.
+
+    Source : https://mermaid.js.org/syntax/flowchart.html
