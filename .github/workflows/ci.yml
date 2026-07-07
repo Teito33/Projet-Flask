@@ -9,7 +9,7 @@ jobs:
   security-and-quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Detection de secrets (GitLeaks)
@@ -78,7 +78,7 @@ jobs:
     permissions:
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Connexion a ghcr.io
         uses: docker/login-action@v3
