@@ -615,3 +615,12 @@ rendu. Quel type de diagramme et pourquoi ? Indiquez la source.
     ce qui se représente naturellement par des boîtes et des flèches.
 
     Source : https://mermaid.js.org/syntax/flowchart.html
+
+Question 11 (compte-rendu) : Analysez la documentation d'un projet reconnu : structure, outils, ce qui la rend efficace. Une pratique à reprendre ?
+
+    FastAPI :
+
+        Doc = MkDocs Material, même stack que ce TP
+        Tutoriel progressif avec exemples de code exécutables partout
+        Recherche intégrée, versionnée avec mike
+        Pratique à reprendre : exemple de requête/réponse concret pour chaque route dans api.md, pas juste un tableau.
